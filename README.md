@@ -19,11 +19,21 @@ Two servers:
 
 ```bash
 git clone https://github.com/Ontry57/icloud-mcp.git ~/.config/icloud-mcp
+cd ~/.config/icloud-mcp && ./install.sh
 ```
 
-Then add the MCP entries to `~/.claude.json` under `mcpServers` (or the equivalent for your MCP client). See [`claude.example.json`](claude.example.json) for the full block — copy it in and replace the placeholder credentials.
+The installer:
+1. Installs `uv` if missing
+2. Detects the system CA bundle (needed for Python TLS on macOS)
+3. Prompts for your iCloud email + app-specific password (or reads `ICLOUD_USER` / `ICLOUD_APP_PASSWORD` from env)
+4. Merges the two MCP entries into `~/.claude.json` (backing up the existing file)
+5. Smoke-tests the CalDAV connection
 
 Restart Claude Code. You should now have tools like `mcp__icloud-cal__list_events`.
+
+### Manual install
+
+If you'd rather wire it up by hand, copy the `mcpServers` block from [`claude.example.json`](claude.example.json) into your `~/.claude.json` and replace the placeholders.
 
 ## Configuration
 
