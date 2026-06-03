@@ -1,0 +1,38 @@
+{
+  "_comment": "Paste these two blocks into your ~/.claude.json under 'mcpServers'. Replace YOUR_EMAIL and YOUR_APP_PASSWORD with values from https://appleid.apple.com",
+  "mcpServers": {
+    "icloud-mail": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["mcp-email-server@latest", "stdio"],
+      "env": {
+        "MCP_EMAIL_SERVER_IMAP_HOST": "imap.mail.me.com",
+        "MCP_EMAIL_SERVER_IMAP_PORT": "993",
+        "MCP_EMAIL_SERVER_IMAP_USER_NAME": "YOUR_EMAIL@me.com",
+        "MCP_EMAIL_SERVER_IMAP_PASSWORD": "YOUR_APP_PASSWORD",
+        "MCP_EMAIL_SERVER_SMTP_HOST": "smtp.mail.me.com",
+        "MCP_EMAIL_SERVER_SMTP_PORT": "587",
+        "MCP_EMAIL_SERVER_SMTP_USER_NAME": "YOUR_EMAIL@me.com",
+        "MCP_EMAIL_SERVER_SMTP_PASSWORD": "YOUR_APP_PASSWORD",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "REQUESTS_CA_BUNDLE": "/etc/ssl/cert.pem"
+      }
+    },
+    "icloud-cal": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--with", "caldav",
+        "--with", "vobject",
+        "--with", "mcp",
+        "python", "~/.config/icloud-mcp/server.py"
+      ],
+      "env": {
+        "ICLOUD_USER": "YOUR_EMAIL@me.com",
+        "ICLOUD_APP_PASSWORD": "YOUR_APP_PASSWORD",
+        "SSL_CERT_FILE": "/etc/ssl/cert.pem",
+        "REQUESTS_CA_BUNDLE": "/etc/ssl/cert.pem"
+      }
+    }
+  }
+}
