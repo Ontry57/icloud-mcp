@@ -11,6 +11,19 @@ import caldav
 from caldav.lib.error import NotFoundError
 from mcp.server.fastmcp import FastMCP
 
+
+def _load_secrets():
+    from pathlib import Path
+    p = Path(__file__).parent.parent / "secrets.env"
+    if p.exists():
+        for line in p.read_text().splitlines():
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, _, v = line.partition("=")
+                os.environ.setdefault(k.strip(), v.strip())
+
+_load_secrets()
+
 USER = os.environ["ICLOUD_USER"]
 PWD = os.environ["ICLOUD_APP_PASSWORD"]
 URL = os.environ.get("ICLOUD_CALDAV_URL", "https://caldav.icloud.com/")

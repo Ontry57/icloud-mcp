@@ -15,6 +15,19 @@ from typing import Optional
 
 from mcp.server.fastmcp import FastMCP
 
+
+def _load_secrets():
+    from pathlib import Path
+    p = Path(__file__).parent.parent / "secrets.env"
+    if p.exists():
+        for line in p.read_text().splitlines():
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, _, v = line.partition("=")
+                os.environ.setdefault(k.strip(), v.strip())
+
+_load_secrets()
+
 IMAP_HOST = os.environ.get("ICLOUD_IMAP_HOST", "imap.mail.me.com")
 IMAP_PORT = int(os.environ.get("ICLOUD_IMAP_PORT", "993"))
 USER = os.environ["ICLOUD_USER"]
